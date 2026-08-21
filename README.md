@@ -91,3 +91,9 @@ references/api.md        tool catalog notes and sharp edges
 ## License
 
 MIT
+
+---
+
+*Enjoy putting AI to work like this? It's what we teach business owners every
+day inside [AI Operator Academy](https://www.skool.com/aioperatoracademy/about)
+— practical AI systems, no engineering degree required.*

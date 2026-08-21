@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excalidraw Skill — let your AI draw your diagrams</title>
+<meta name="description" content="A free skill that lets Claude Code or Codex draw real Excalidraw diagrams for you — flowcharts, wireframes, slide decks, SWOT boards, Lean Canvas and more. One command to install.">
+<meta name="keywords" content="excalidraw, ai diagrams, claude code skill, codex skill, mcp, flowchart generator, ai whiteboard, agent skills, diagram automation">
+<link rel="canonical" href="https://nicholasspisak.github.io/excalidraw/">
+<meta property="og:title" content="Excalidraw Skill — let your AI draw your diagrams">
+<meta property="og:description" content="Ask your AI for a flowchart, wireframe, or slide deck and get a real, editable Excalidraw drawing back. Works with Claude Code and Codex. Free and open source.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nicholasspisak.github.io/excalidraw/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@NickSpisak_">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Excalidraw Agent Skill",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "macOS, Linux, Windows",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "An agent skill that lets Claude Code or Codex create Excalidraw diagrams — flowcharts, architecture diagrams, wireframes, presentations, and 17 whiteboard use cases.",
+  "url": "https://github.com/NicholasSpisak/excalidraw",
+  "author": {"@type": "Person", "name": "Nick Spisak", "url": "https://x.com/NickSpisak_"}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+  :root{
+    --paper:#FDFDF8; --ink:#1b1b1f; --muted:#5c5c66; --violet:#6965db;
+    --violet-soft:#edecfd; --marker:#fff3bf; --line:#c9c9d4;
+    --sticky-1:#fff9c9; --sticky-2:#d9f3e5; --sticky-3:#fde4e1; --sticky-4:#e2ecfb;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Atkinson Hyperlegible", Verdana, sans-serif;
+    font-size:18px; line-height:1.65;
+    background-image:radial-gradient(var(--line) 1px, transparent 1px);
+    background-size:32px 32px;
+  }
+  .sheet{max-width:860px; margin:0 auto; padding:0 24px 80px}
+  /* hand-drawn box trick: irregular radii */
+  .sketch{
+    border:2.5px solid var(--ink);
+    border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;
+    background:var(--paper);
+  }
+  header{padding:72px 0 24px; text-align:center}
+  .hand{font-family:"Kalam", "Comic Sans MS", cursive}
+  h1{
+    font-family:"Kalam", cursive; font-weight:700; font-size:clamp(38px,7vw,58px);
+    line-height:1.15; margin:0 0 8px; text-wrap:balance;
+  }
+  h1 .hl{background:linear-gradient(104deg, transparent 3%, var(--marker) 4%, var(--marker) 96%, transparent 97%); padding:0 6px}
+  .sub{font-size:21px; color:var(--muted); max-width:600px; margin:14px auto 0; text-wrap:balance}
+  .arrow{display:block; margin:26px auto 6px; width:60px}
+  h2{
+    font-family:"Kalam", cursive; font-weight:700; font-size:clamp(26px,4.5vw,34px);
+    margin:64px 0 6px; line-height:1.2;
+  }
+  h2 .num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:44px; height:44px; margin-right:12px; font-size:24px;
+    border:2.5px solid var(--ink); border-radius:50% 45% 55% 48%/48% 55% 45% 52%;
+    background:var(--violet-soft); vertical-align:middle;
+  }
+  p{margin:0 0 16px}
+  .card{padding:24px 28px; margin:18px 0}
+  .steps{counter-reset:step; display:flex; flex-direction:column; gap:18px; margin-top:20px}
+  .cmd{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    background:var(--ink); color:#f3f3ef; border-radius:12px;
+    padding:16px 20px; font-family:ui-monospace, "SF Mono", Menlo, monospace;
+    font-size:16.5px; overflow-x:auto;
+  }
+  .cmd code{white-space:nowrap}
+  .cmd .dollar{color:#8f8fdd; user-select:none}
+  button.copy{
+    margin-left:auto; font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size:14px; font-weight:700; cursor:pointer; color:var(--ink);
+    background:var(--marker); border:2px solid var(--ink);
+    border-radius:8px 10px 9px 11px; padding:6px 12px;
+  }
+  button.copy:hover{background:#ffec99}
+  button.copy:focus-visible, a:focus-visible{outline:3px solid var(--violet); outline-offset:3px; border-radius:4px}
+  .quiet{color:var(--muted); font-size:16px}
+  a{color:var(--violet); text-decoration-thickness:2px; text-underline-offset:3px}
+  a:hover{text-decoration-thickness:3px}
+  /* sticky-note capability grid */
+  .board{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px; margin-top:24px}
+  .sticky{
+    padding:20px 20px 22px; border:2px solid var(--ink);
+    border-radius:14px 10px 16px 8px/10px 16px 8px 14px;
+    box-shadow:4px 5px 0 rgba(27,27,31,.12);
+    transform:rotate(var(--tilt,-.6deg));
+  }
+  .sticky:nth-child(1){background:var(--sticky-1); --tilt:-.8deg}
+  .sticky:nth-child(2){background:var(--sticky-2); --tilt:.7deg}
+  .sticky:nth-child(3){background:var(--sticky-3); --tilt:-.5deg}
+  .sticky:nth-child(4){background:var(--sticky-4); --tilt:.9deg}
+  .sticky h3{font-family:"Kalam",cursive; font-size:21px; margin:0 0 10px}
+  .sticky ul{margin:0; padding-left:20px; font-size:16.5px}
+  .sticky li{margin-bottom:5px}
+  .how{display:flex; gap:10px; align-items:flex-start; margin:14px 0}
+  .how .say{
+    background:var(--violet-soft); border:2px solid var(--violet);
+    border-radius:16px 16px 16px 4px; padding:12px 18px; font-style:italic;
+  }
+  details{margin:14px 0; padding:16px 22px}
+  details summary{
+    font-weight:700; cursor:pointer; font-size:17px;
+    font-family:"Kalam",cursive; font-size:20px;
+  }
+  details[open] summary{margin-bottom:10px}
+  pre{background:#f1f1ec; border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:14.5px; line-height:1.5}
+  .cta{
+    margin-top:80px; padding:34px 34px 30px; text-align:center;
+    background:var(--violet-soft);
+  }
+  .cta p{max-width:560px; margin:0 auto 18px}
+  .cta a.btn{
+    display:inline-block; background:var(--violet); color:#fff; font-weight:700;
+    text-decoration:none; padding:13px 26px; border:2.5px solid var(--ink);
+    border-radius:14px 10px 16px 9px/10px 16px 9px 14px;
+    box-shadow:4px 5px 0 rgba(27,27,31,.25);
+  }
+  .cta a.btn:hover{transform:translate(1px,1px); box-shadow:2px 3px 0 rgba(27,27,31,.25)}
+  footer{margin-top:56px; text-align:center; font-size:15px; color:var(--muted)}
+  footer a{color:var(--muted)}
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:rise .6s ease both}
+    @keyframes rise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+    header .reveal:nth-child(2){animation-delay:.12s}
+    header .reveal:nth-child(3){animation-delay:.24s}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header>
+  <h1 class="reveal">Ask your AI.<br>Get a <span class="hl">real diagram.</span></h1>
+  <p class="sub reveal">A free skill that teaches Claude Code or Codex to draw proper Excalidraw diagrams — flowcharts, wireframes, slide decks, business canvases — right in your own Excalidraw workspace.</p>
+  <svg class="arrow reveal" viewBox="0 0 60 52" aria-hidden="true"><path d="M30 2 C26 18 32 30 30 44 M20 36 L30 48 L40 36" fill="none" stroke="#1b1b1f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</header>
+
+<section aria-labelledby="what">
+  <h2 id="what"><span class="num" aria-hidden="true">1</span>What it does</h2>
+  <div class="card sketch">
+    <div class="how"><div class="say">"Draw me a flowchart of our customer onboarding."</div></div>
+    <div class="how"><div class="say">"Turn these notes into a SWOT board."</div></div>
+    <div class="how"><div class="say">"Wireframe the new landing page, then make it a 5-slide deck."</div></div>
+    <p>You type a sentence like one of those. Your AI assistant opens your <a href="https://plus.excalidraw.com/">Excalidraw+</a> workspace, draws the diagram in Excalidraw's friendly hand-drawn style, checks its own work with a screenshot, and hands you a link. The drawing is fully editable — move boxes, change words, share it with your team, just like any whiteboard you made yourself.</p>
+    <p class="quiet">No design tools to learn. No dragging boxes around. You describe; it draws.</p>
+  </div>
+</section>
+
+<section aria-labelledby="install">
+  <h2 id="install"><span class="num" aria-hidden="true">2</span>Install in three steps</h2>
+  <div class="steps">
+    <div class="card sketch">
+      <p><strong>Step 1 — Get your Excalidraw key.</strong> Sign in at <a href="https://app.excalidraw.com/">app.excalidraw.com</a> (Excalidraw+), open <em>Settings → API keys</em>, and create a key. Copy it somewhere safe — treat it like a password.</p>
+    </div>
+    <div class="card sketch">
+      <p><strong>Step 2 — Add the skill.</strong> Paste this into your terminal (the same place you run Claude Code or Codex):</p>
+      <div class="cmd"><span class="dollar" aria-hidden="true">$</span><code id="install-cmd">npx skills add NicholasSpisak/excalidraw</code><button class="copy" type="button" data-copy="npx skills add NicholasSpisak/excalidraw">Copy</button></div>
+      <p class="quiet" style="margin-top:12px">That's the <a href="https://github.com/vercel-labs/skills">skills</a> installer — it sets things up for Claude Code, Codex, and most other AI coding assistants in one go.</p>
+    </div>
+    <div class="card sketch">
+      <p><strong>Step 3 — Tell it your key.</strong> Run these two lines once, then restart your terminal:</p>
+      <div class="cmd"><span class="dollar" aria-hidden="true">$</span><code>mkdir -p ~/.config/excalidraw &amp;&amp; printf '%s\n' 'YOUR-KEY-HERE' &gt; ~/.config/excalidraw/api_key</code><button class="copy" type="button" data-copy="mkdir -p ~/.config/excalidraw && printf '%s\n' 'YOUR-KEY-HERE' > ~/.config/excalidraw/api_key">Copy</button></div>
+      <p class="quiet" style="margin-top:12px">Your key stays in one private file on your computer — never in any project or code you share.</p>
+    </div>
+  </div>
+  <details class="sketch">
+    <summary>Optional: native MCP setup (for the technically curious)</summary>
+    <p>The skill works out of the box. If you prefer wiring the official Excalidraw MCP server directly into your assistant:</p>
+    <p><strong>Claude Code</strong> — add to <code>~/.claude.json</code>:</p>
+    <pre>{
+  "mcpServers": {
+    "excalidraw": {
+      "type": "http",
+      "url": "https://api.excalidraw.com/api/v1/mcp",
+      "headers": { "Authorization": "Bearer &lt;API_KEY&gt;" }
+    }
+  }
+}</pre>
+    <p><strong>Codex</strong> — add to <code>~/.codex/config.toml</code>:</p>
+    <pre>[mcp_servers.excalidraw]
+url = "https://api.excalidraw.com/api/v1/mcp"
+env_http_headers = { Authorization = "EXCALIDRAW_API_KEY" }</pre>
+    <p class="quiet">Full details in the <a href="https://github.com/NicholasSpisak/excalidraw#readme">README on GitHub</a>.</p>
+  </details>
+</section>
+
+<section aria-labelledby="capabilities">
+  <h2 id="capabilities"><span class="num" aria-hidden="true">3</span>What it can draw</h2>
+  <p>All seventeen of Excalidraw's official <a href="https://plus.excalidraw.com/use-cases">use cases</a>, each with its own layout playbook baked in:</p>
+  <div class="board">
+    <div class="sticky">
+      <h3>Explain systems</h3>
+      <ul>
+        <li>Flowcharts</li>
+        <li>Software architecture</li>
+        <li>Sequence diagrams</li>
+        <li>Data-flow diagrams</li>
+        <li>UML diagrams</li>
+      </ul>
+    </div>
+    <div class="sticky">
+      <h3>Plan the business</h3>
+      <ul>
+        <li>Lean Canvas</li>
+        <li>SWOT analysis</li>
+        <li>Competitor analysis</li>
+        <li>Roadmaps</li>
+        <li>Gantt charts</li>
+      </ul>
+    </div>
+    <div class="sticky">
+      <h3>Design things</h3>
+      <ul>
+        <li>Wireframes &amp; mockups</li>
+        <li>Presentations &amp; slide decks</li>
+        <li>Game design boards</li>
+      </ul>
+    </div>
+    <div class="sticky">
+      <h3>Think together</h3>
+      <ul>
+        <li>Mind maps</li>
+        <li>Brainstorming boards</li>
+        <li>User personas</li>
+        <li>Interview whiteboards</li>
+        <li>Teaching canvases</li>
+      </ul>
+    </div>
+  </div>
+  <p class="quiet" style="margin-top:22px">Every drawing lands in your own workspace, gets screenshot-checked before it's called done, and comes back as a shareable link.</p>
+</section>
+
+<section class="cta sketch" aria-labelledby="cta-h">
+  <h2 id="cta-h" style="margin-top:0">Like putting AI to work like this?</h2>
+  <p>This skill is one small example of what happens when business owners get practical with AI. That's the whole idea behind <strong>AI Operator Academy</strong> — a community where owners learn to turn AI into real systems (and real revenue), no engineering degree required.</p>
+  <a class="btn" href="https://www.skool.com/aioperatoracademy/about">Take a look at the Academy →</a>
+</section>
+
+<footer>
+  <p>Free &amp; open source (MIT) · <a href="https://github.com/NicholasSpisak/excalidraw">View on GitHub</a> · Built by <a href="https://x.com/NickSpisak_">Nick Spisak</a><br>
+  Not affiliated with Excalidraw — it just loves their whiteboard.</p>
+</footer>
+
+</div>
+<script>
+document.querySelectorAll("button.copy").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    navigator.clipboard.writeText(btn.dataset.copy).then(function(){
+      var old = btn.textContent; btn.textContent = "Copied!";
+      setTimeout(function(){ btn.textContent = old; }, 1600);
+    });
+  });
+});
+</script>
+</body>
+</html>
