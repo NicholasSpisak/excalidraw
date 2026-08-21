@@ -91,6 +91,38 @@ Legend — **Tool**: primary authoring tool · **Guide**: required format guide.
   or voter), clustered spatially with a labeled region per cluster; dot-vote
   circles if asked. Don't over-arrange — brainstorms should look organic.
 
+### Lean Canvas
+- Conventions: the standard 9-box grid — Problem, Solution, Key Metrics,
+  Unique Value Proposition (center, visually dominant), Unfair Advantage,
+  Channels, Customer Segments across the top two rows; Cost Structure and
+  Revenue Streams as two wide boxes along the bottom. Uniform box borders,
+  section titles as small uppercase labels, content as short sticky-note
+  phrases (not sentences). Leave room in every box — the canvas is meant to
+  be iterated.
+
+### SWOT analysis
+- Conventions: 2×2 quadrant grid with a bold cross divider — Strengths
+  (top-left), Weaknesses (top-right), Opportunities (bottom-left), Threats
+  (bottom-right). One color per quadrant (e.g. green/red/blue/orange, muted),
+  3–6 sticky notes per quadrant, axis labels "Helpful/Harmful" (columns) and
+  "Internal/External" (rows) if the user wants the classic framing.
+
+### Competitor analysis
+- Conventions: pick per request — (a) 2×2 positioning matrix: labeled X/Y
+  axes (e.g. price vs. quality), competitor names as dots or small logo
+  boxes, your own position highlighted in the accent color; or (b) comparison
+  grid: competitors as columns, criteria as rows, ✓/✗/notes in cells. Add a
+  short takeaway box ("where we win") — the analysis should end in a claim,
+  not just a map.
+
+### Game design
+- Conventions: mixed-mode board by request — mechanics as a flowchart
+  (states/actions/outcomes via `create_diagram`), level maps as freeform
+  spatial sketches, idea collection as sticky-note clusters, screen/UI
+  prototypes using the wireframe conventions above. Organize regions with
+  labeled frames (Ideas · Mechanics · Levels · UI) so one scene can hold the
+  whole design conversation.
+
 ### Whiteboarding / system-design interviews
 - Conventions: leave generous empty space (the canvas is for the candidate),
   seed only the prompt box (requirements list, top-left) and a legend.

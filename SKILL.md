@@ -1,6 +1,6 @@
 ---
 name: excalidraw
-description: Create and edit Excalidraw diagrams in an Excalidraw+ workspace — flowcharts, software architecture diagrams, sequence diagrams, data-flow diagrams, UML, Gantt charts, mind maps, wireframes, mockups, presentations/slide decks, roadmaps, user personas, brainstorming boards, and whiteboarding-interview canvases. Use when asked to draw, diagram, sketch, wireframe, whiteboard, or make slides in Excalidraw.
+description: Create and edit Excalidraw diagrams in an Excalidraw+ workspace — flowcharts, software architecture diagrams, sequence diagrams, data-flow diagrams, UML, Gantt charts, mind maps, wireframes, mockups, presentations/slide decks, roadmaps, user personas, brainstorming boards, Lean Canvas, SWOT analysis, competitor analysis, game-design boards, and whiteboarding-interview canvases. Use when asked to draw, diagram, sketch, wireframe, whiteboard, or make slides in Excalidraw.
 ---
 
 # Excalidraw
@@ -36,7 +36,8 @@ user; never paste keys into files that could be committed.
 1. **Classify the request** against `references/use-cases.md` — it maps every
    Excalidraw use case (flowchart, architecture, sequence, data-flow, UML,
    Gantt, mind map, wireframe, presentation, roadmap, persona, brainstorm,
-   interview) to the right tool and layout recipe.
+   Lean Canvas, SWOT, competitor analysis, game design, interview) to the
+   right tool and layout recipe.
 2. **Read the matching format guide before your first content write** — this
    is required by the server, not optional:
    - `read_diagram_format` — node/edge diagrams: architecture, flowcharts,

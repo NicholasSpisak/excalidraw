@@ -2,8 +2,9 @@
 
 Create and edit Excalidraw diagrams from Claude Code, Codex, or any agent
 harness — flowcharts, architecture diagrams, sequence diagrams, UML, Gantt
-charts, mind maps, wireframes, slide decks, roadmaps, personas, and
-brainstorming boards, aligned with the official
+charts, mind maps, wireframes, slide decks, roadmaps, personas,
+brainstorming boards, Lean Canvas, SWOT and competitor analyses, and
+game-design boards, aligned with the official
 [Excalidraw use cases](https://plus.excalidraw.com/use-cases).
 
 Backed by the official Excalidraw+ MCP server
