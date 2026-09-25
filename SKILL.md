@@ -73,6 +73,9 @@ user; never paste keys into files that could be committed.
 - Match Excalidraw's hand-drawn aesthetic: default fonts/roughness, a
   restrained palette (2–3 hues max), generous whitespace. Design conventions
   per diagram type live in `references/use-cases.md`.
+- Presentations follow `references/slide-standard.md` (layout, palette, type,
+  and image-upload gotchas) unless the user asks for a different style; it
+  overrides the hand-drawn defaults for decks.
 - Scene content edits must use valid Excalidraw element format from the
   format guides (step 2) — invalid elements corrupt scenes.
 - Tool catalog and pagination notes: `references/api.md`.
