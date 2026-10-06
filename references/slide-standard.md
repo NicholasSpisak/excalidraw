@@ -18,7 +18,10 @@ different style. It applies with `read_presentation_format`; where they differ
 - Black badge 110x64 with the white slide number (`01`, `02`, ...), 36px.
 - Title in ALL CAPS, 56px, `#1e1e1e`, to the right of the badge.
 - Subtitle, one sentence, 32px, `#6b6b6b`, under the title.
-- One orange dot (22px, `#F06000`) at the top right.
+- Progress dots at the top right: slide N shows N orange dots (22px,
+  `#F06000`, 32px apart). The rightmost dot stays fixed and new dots extend
+  left, so viewers can see how far into the deck they are. A header logo sits
+  24px left of the leftmost dot.
 
 ## Body: one visual per slide
 
@@ -38,8 +41,12 @@ different style. It applies with `read_presentation_format`; where they differ
 
 ## Build notes
 
-- `add_image` inserts images at the back of the z-order. Give the background
-  card and any image borders a transparent fill, or they hide the image.
+- Layering: the server can slot new elements below existing ones. `add_image`
+  puts images at the back, and elements added to an existing slide can land
+  under its background card. After every image or late addition, read the
+  scene's highest `index` and patch the new elements with `edit_scene_content`
+  `update` to a larger index (fractional indices compare as strings, so append
+  to the max, e.g. `b0p` -> `b0pVa`). Then confirm with `take_screenshot`.
 - Upload screenshots with the skill CLI (`scripts/excal.mjs call add_image`)
   so base64 data never enters the chat.
 - Never delete an image element once uploaded: the scene then rejects new
