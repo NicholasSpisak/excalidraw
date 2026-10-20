@@ -39,6 +39,24 @@ different style. It applies with `read_presentation_format`; where they differ
 
 - Full-width black bar, 70px tall, one white takeaway sentence, 28-30px.
 
+## Top-of-funnel explainer decks
+
+For broad-audience explainers (a new AI capability for business owners, a
+co-hosted video), keep it to 3-5 slides in this order, one idea per slide:
+
+1. **The opportunity**: why this matters right now.
+2. **What it is, ELI5**: one everyday analogy (e.g. skill = the recipe,
+   connector = the keys, plugin = both in one box).
+3. **Ways in**: how to start, at a high level.
+4. **What you get**: one concrete outcome example.
+5. **Why it pays**: how it makes money, for owners and for new ventures.
+
+Merge or drop beats to fit, but keep the opportunity, outcome, and money
+slides. Jargon goes in presenter notes, not on slides. Put no numbers on
+screen unless a source backs them, and label predictions ("NEXT"). Give each
+slide one flat illustration in the deck style: thick black outlines, white and
+gray fills, a single orange accent, and no text in the image.
+
 ## Build notes
 
 - Layering: the server can slot new elements below existing ones. `add_image`
@@ -51,6 +69,14 @@ different style. It applies with `read_presentation_format`; where they differ
   so base64 data never enters the chat.
 - Never delete an image element once uploaded: the scene then rejects new
   image writes until the deleted element's `fileId` is patched to `null`.
+  To replace an image, patch its `fileId` to `null` first, then delete it.
+- Center-aligned standalone text (`textAlign: "center"`) is placed with its
+  center on the `x` you send, not its left edge. Set `x` to the intended
+  center, or patch afterwards to `x = center - renderedWidth / 2`, then check
+  with a screenshot.
+- `edit_scene_content` and `add_image` accept `zOrder` (for example
+  `{"id": "<bg tempId>", "at": "back"}` or `{"at": "front"}` for images), which
+  avoids most of the manual index patching described above.
 - Capture site screenshots at 1440x900 with headless Chrome over CDP;
   scroll-animated pages need the target text scrolled into view first.
 - Verify every slide with `take_screenshot` before handing back the link.
